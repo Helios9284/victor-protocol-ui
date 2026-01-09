@@ -1,8 +1,33 @@
 @import "tailwindcss";
 
+/* @tailwind base;
+@tailwind components; */
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Cleanow';
+  src: url('/Cleanow.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 10, 11, 30;
+  --background-end-rgb: 26, 46, 26;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+    to bottom right,
+    rgb(var(--background-start-rgb)),
+    rgb(var(--background-end-rgb))
+  );
+}
+
+.font-cleanow {
+  font-family: 'Cleanow', sans-serif;
 }
 
 @theme inline {
@@ -23,4 +48,139 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+@keyframes move-background {
+  from {
+    -webkit-transform: translate3d(0px, 0px, 0px);
+  }
+  to {
+    -webkit-transform: translate3d(1000px, 0px, 0px);
+  }
+}
+.clouds {
+  /* background-size: 1000px ; */
+  position: absolute;
+  z-index: 3;
+
+  -moz-animation: move-background 15s linear infinite;
+  -ms-animation: move-background 15s linear infinite;
+  -o-animation: move-background 15s linear infinite;
+  -webkit-animation: move-background 15s linear infinite;
+  animation: move-background 15s linear infinite;
+}
+
+@keyframes blink {
+  0%, 90%, 100% {
+    opacity: 0;
+  }
+  91%, 95% {
+    opacity: 1;
+  }
+}
+
+@keyframes gradient { 
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+    background-color: #440459;
+  }
+  25% {
+    transform: translate(40px, 0px) rotate(0deg);
+    background-color: #440459;
+  }
+  50% {
+    transform: translate(60px, 0px) rotate(0deg);
+    background-color: #94045B;
+  }
+  75% {
+    transform: translate(30px, 0px) rotate(0.5deg);
+    background-color: #440459;
+  }
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+}
+
+.gradient-float-4 {
+  animation: gradient 3s ease-in-out infinite;
+}
+
+.connectWallet:hover {
+  box-shadow: 0px 0px 20px 0px #39FF14;
+}
+.social:hover {
+  box-shadow: 0px 0px 20px 0px #c69fe0;
+}
+.animate-blink {
+  animation: blink 4s infinite;
+}
+
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 0.2;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-twinkle {
+  animation: twinkle 2s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 10s linear infinite;
+}
+
+@keyframes spin-1 {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-1 {
+  animation: spin-1 3s linear infinite;
+}
+
+@keyframes spin-2 {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-2 {
+  animation: spin-2 4s linear infinite;
+}
+
+@keyframes spin-3 {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-3 {
+  animation: spin-3 8s linear infinite;
+}
+/* background: linear-gradient(180deg, #27362e, rgba(34, 47, 40, 0)); */
+.future:hover {
+  background: linear-gradient(180deg, #27362e, rgba(34, 47, 40, 0));
 }

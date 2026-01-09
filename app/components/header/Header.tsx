@@ -53,7 +53,7 @@ export const Header = () => {
             <Link
               key={item.path}
               href={item.path}
-              className={`text-gray-300 font-semibold hover:text-white transition-colors ${pathname === item.path ? 'text-white border-b-2 border-[#6FD24D]' : ''
+              className={`text-gray-300 font-cleanow font-semibold hover:text-white transition-colors ${pathname === item.path ? 'text-white border-b-2 border-[#ffffff]' : ''
                 }`}
             >
               {item.name}
