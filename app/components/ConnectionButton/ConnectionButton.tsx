@@ -26,7 +26,7 @@ export const ConnectionButton = () => {
             {(() => {
               if (!mounted || !account || !chain) {
                 return (
-                  <button className="connectWallet bg-[#39FF14]  text-black px-6 py-2 rounded-full font-cleanow  transition-all border-[4px] border-[#B8F736] cursor-pointer mt-4 md:mt-0" onClick={openConnectModal} type="button">
+                  <button className="connectWallet bg-gradient-blue-primary text-white px-6 py-2 rounded-full font-cleanow transition-all border-[4px] border-blue-light cursor-pointer mt-4 md:mt-0 hover:bg-gradient-blue-sky shadow-[0_0_20px_var(--blue-primary)]" onClick={openConnectModal} type="button">
                     Connect Wallet
                   </button>
                 );
@@ -34,14 +34,14 @@ export const ConnectionButton = () => {
 
               if (chain.unsupported) {
                 return (
-                  <button className="bg-[#39FF14] text-black px-6 py-2 rounded-full font-cleanow hover:bg-opacity-90 transition-all border-[4px] border-[#B8F736] cursor-pointer mt-4 md:mt-0" onClick={openChainModal} type="button">
+                  <button className="bg-gradient-blue-primary text-white px-6 py-2 rounded-full font-cleanow hover:bg-gradient-blue-sky transition-all border-[4px] border-blue-light cursor-pointer mt-4 md:mt-0 shadow-[0_0_20px_var(--blue-primary)]" onClick={openChainModal} type="button">
                     Wrong network
                   </button>
                 );
               }
 
               return (
-                <div style={{ display: 'flex', gap: 12 }} className='bg-[#39FF14] text-black px-6 py-2 rounded-full font-cleanow hover:bg-opacity-90 transition-all border-[4px] border-[#B8F736] cursor-pointer mt-4 md:mt-0'>
+                <div style={{ display: 'flex', gap: 12 }} className='bg-gradient-blue-primary text-white px-6 py-2 rounded-full font-cleanow hover:bg-gradient-blue-sky transition-all border-[4px] border-blue-light cursor-pointer mt-4 md:mt-0 shadow-[0_0_20px_var(--blue-primary)]'>
                   <button
                     onClick={openChainModal}
                     style={{ display: 'flex', alignItems: 'center' }}

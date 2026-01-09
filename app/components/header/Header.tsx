@@ -28,7 +28,7 @@ export const Header = () => {
             height={43}
             className="w-10 h-auto md:w-[58px]"
           />
-          <span className="text-[#ffffff] font-semibold font-cleanow text-sm md:text-xl text-shadow-[-3px_3px_#054642]">
+          <span className="text-blue-light font-semibold font-cleanow text-sm md:text-xl text-shadow-[-3px_3px_var(--blue-deep)]">
             Victor<br /> Protocol
           </span>
         </div>
@@ -53,7 +53,7 @@ export const Header = () => {
             <Link
               key={item.path}
               href={item.path}
-              className={`text-gray-300 font-cleanow font-semibold hover:text-white transition-colors ${pathname === item.path ? 'text-white border-b-2 border-[#ffffff]' : ''
+              className={`text-blue-light font-cleanow font-semibold hover:text-blue-primary transition-colors ${pathname === item.path ? 'text-blue-primary border-b-2 border-blue-primary' : ''
                 }`}
             >
               {item.name}
@@ -68,13 +68,13 @@ export const Header = () => {
 
       {/* Mobile Navigation */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-[#0a0b1e] py-4 px-4">
+        <div className="md:hidden bg-blue-deep py-4 px-4">
           <nav className="flex flex-col space-y-4">
             {navItems.map((item) => (
               <Link
                 key={item.path}
                 href={item.path}
-                className={`text-gray-300 hover:text-white transition-colors ${pathname === item.path ? 'text-white border-l-2 border-[#6FD24D] pl-2' : 'pl-2'
+                className={`text-blue-light hover:text-blue-primary transition-colors ${pathname === item.path ? 'text-blue-primary border-l-2 border-blue-primary pl-2' : 'pl-2'
                   }`}
                 onClick={() => setMobileMenuOpen(false)}
               >

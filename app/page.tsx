@@ -85,7 +85,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col gap-16 md:gap-24 max-w-screen overflow-x-hidden">
-      <div className='w-[360px] h-[360px] scale-[2] rounded-full blur-[100px] md:blur-[180px] bg-[#BC01FE] opacity-40 absolute -top-20 left-0 -z-[1]' />
+      <div className='w-[360px] h-[360px] scale-[2] rounded-full blur-[100px] md:blur-[180px] bg-blue-primary opacity-40 absolute -top-20 left-0 -z-[1]' />
       {/* Hero Section */}
       <section className="relative py-10 md:pt-32 md:pb-40">
         <div className="max-w-[1096px] mx-auto px-6">
@@ -98,7 +98,7 @@ export default function Home() {
                 custom={0}
                 variants={leftFollow}
               >
-                <h1 className="text-3xl md:text-5xl font-cleanow mb-[30px] text-[#ffffff] leading-tight text-shadow-[-3px_3px_#054642]">
+                <h1 className="text-3xl md:text-5xl font-cleanow mb-[30px] text-blue-light leading-tight text-shadow-[-3px_3px_var(--blue-deep)]">
                   {['V', 'i', 'c', 't', 'o', 'r','P','r','o','t','o','c','o','l'].map((word, index) => (
                     <span
                       key={index}
@@ -112,10 +112,10 @@ export default function Home() {
                   ))}
                   <br />will accelerate your business
                 </h1>
-                <p className="text-sm md:text-xl text-gray-300 mb-10 font-cleanow">
+                <p className="text-sm md:text-xl text-blue-light mb-10 font-cleanow">
                   Start building your smart contract with Victor Protocol
                 </p>
-                <button className="bg-[#39FF14] text-black px-4 py-3 rounded-full font-cleanow text-xl hover:bg-opacity-90 transition-all border-[4px] border-[#B8F736]">
+                <button className="bg-gradient-blue-primary text-white px-4 py-3 rounded-full font-cleanow text-xl hover:bg-gradient-blue-sky transition-all border-[4px] border-blue-light shadow-[0_0_20px_var(--blue-primary)]">
                   CREATE A CONTRACT
                 </button>
               </motion.div>
