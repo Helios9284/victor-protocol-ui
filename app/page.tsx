@@ -147,7 +147,7 @@ export default function Home() {
           </div>
         </div>
         {/* Animated Image Carousel with Stack Effect */}
-        <div className='absolute right-40 top-20 hidden md:block w-[420px] h-[450px]'>
+        <div className='absolute right-50 top-20 hidden md:block w-[380px] h-[420px]'>
           {carouselImages.map((imageSrc, index) => {
             const position = (index - currentImageIndex + carouselImages.length) % carouselImages.length;
             const isActive = position === 0;
@@ -191,9 +191,9 @@ export default function Home() {
                   <Image
                     src={imageSrc}
                     alt={`Carousel image ${index + 1}`}
-                    width={420}
-                    height={450}
-                    className='w-full h-full rounded-3xl object-cover object-center shadow-2xl'
+                    width={300}
+                    height={350}
+                    className='w-full h-full rounded-3xl object-contain shadow-2xl'
                     priority={isActive}
                   />
                 </motion.div>
