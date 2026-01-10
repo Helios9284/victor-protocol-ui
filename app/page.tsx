@@ -133,7 +133,82 @@ export default function Home() {
           />
 
       </section>
+      <motion.div
+          className="introduction mt-[200px] relative"
+          initial="hidden"
+          animate="visible"
+          custom={0}
+          variants={rightFollow}
+      >
+      <div className='absolute w-[600px] h-[200px] blur-[80px] md:blur-[180px] bg-blue-primary opacity-30 -top-[200px] right-0 -z-[1]'></div>
+        
+        <section className="relative">
+          <div className='max-w-[1096px] mx-auto px-6'>
+            {/* Header Section */}
+            <div className="mb-[30px] md:mb-[60px]">
+              <h2 className="text-3xl md:text-[50px] font-bold text-center font-cleanow text-blue-primary text-shadow-[-3px_3px_var(--blue-deep)]">
+                INTRODUCING SVU PROTOCOL
+              </h2>
+            </div>
 
+            {/* Image and Content Sections */}
+            <div className="flex flex-col md:flex-row items-center gap-8">
+              {/* Image Section */}
+              <div className="flex-shrink-0 flex justify-center md:justify-start w-full md:w-auto">
+                <Image
+                  src="/intro1.png"
+                  alt="Protocol Illustration"
+                  width={500}
+                  height={500}
+                  className='w-[400px] h-[400px] md:w-[500px] md:h-[500px] lg:w-[400px] lg:h-[400px] object-contain'
+                />
+              </div>
+              
+              {/* Content Section */}
+              <div className="flex-1 w-full">
+                <div className="space-y-8">
+                  <div>
+                    <div className='mb-4 flex items-center gap-4'>
+                      <div className='border rounded-full bg-gradient-to-r from-blue-primary to-blue-medium w-[15px] h-[15px]'></div>
+                      <h3 className="text-base md:text-2xl font-semibold text-blue-light">
+                        Next-Generation DeFi on MultiversX
+                      </h3>
+                    </div>
+                    <p className="text-xs md:text-base text-blue-light ml-[31px]">
+                      SVU is a next-generation DeFi protocol on MultiversX that empowers its community through transparent, token-holder governance, Protocol-Owned Liquidity (POL) vaults, and intuitive on-chain tools — all managed from one clean dashboard.
+                    </p>
+                  </div>
+                  <div>
+                    <div className='mb-4 flex items-center gap-4'>
+                      <div className='border rounded-full bg-gradient-to-r from-blue-primary to-blue-medium w-[15px] h-[15px]'></div>
+                      <h3 className="text-base md:text-2xl font-semibold text-blue-light">
+                        Community-Driven Governance
+                      </h3>
+                    </div>
+                    <p className="text-xs md:text-base text-blue-light ml-[31px]">
+                      By holding SVU tokens, users gain real voting power to propose, vote on, and execute key protocol decisions — from reward adjustments to new features — in just a few simple steps.
+                    </p>
+                  </div>
+                  <div>
+                    <div className='mb-4 flex items-center gap-4'>
+                      <div className='border rounded-full bg-gradient-to-r from-blue-primary to-blue-medium w-[15px] h-[15px]'></div>
+                      <h3 className="text-base md:text-2xl font-semibold text-blue-light">
+                        Sleek Governance Dashboard
+                      </h3>
+                    </div>
+                    <p className="text-xs md:text-base text-blue-light ml-[31px]">
+                      Connect your wallet, view your voting power, browse active proposals with clear vote breakdowns, and directly shape the future of the protocol.
+                    </p>
+                  </div>
+                  <p className="text-sm md:text-xl font-semibold text-blue-light mt-8">
+                    <span className="text-blue-primary">SVU PROTOCOL</span> provides the building blocks that make all this possible.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </motion.div>
     </div>
   );
 }
