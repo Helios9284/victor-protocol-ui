@@ -38,31 +38,25 @@
   --blue-sky-rgb: 135, 206, 250;
   
   /* Text Colors */
-  --text-primary: #FFFFFF;
-  --text-secondary: #E0F2FF;
+  --text-primary: #1a1a1a;
+  --text-secondary: #4a5568;
   --text-accent: #00BFFF;
-  --text-muted: #B0D4FF;
+  --text-muted: #718096;
   
   /* Background Colors */
-  --bg-primary: #0A1A2E;
-  --bg-secondary: #162447;
-  --bg-dark: #001122;
+  --bg-primary: #FFFFFF;
+  --bg-secondary: #F8F9FA;
+  --bg-dark: #F0F0F0;
   
   /* Foreground RGB for gradients */
-  --foreground-rgb: 255, 255, 255;
-  --background-start-rgb: 10, 26, 46; /* Dark blue */
-  --background-end-rgb: 0, 51, 102; /* Deep blue */
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 255, 255, 255; /* White */
+  --background-end-rgb: 248, 249, 250; /* Light gray */
 }
 
 body {
   color: var(--text-primary);
-  background: linear-gradient(
-    to bottom right,
-    var(--blue-deep),
-    var(--bg-primary),
-    var(--blue-dark),
-    var(--bg-secondary)
-  );
+  background: #FFFFFF;
   min-height: 100vh;
 }
 
@@ -151,8 +145,8 @@ body {
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #ffffff;
+    --foreground: #1a1a1a;
   }
 }
 
