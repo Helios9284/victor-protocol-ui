@@ -126,7 +126,7 @@ export default function Home() {
                 custom={0}
                 variants={leftFollow}
               >
-                <h1 className="text-3xl md:text-5xl font-cleanow mb-[30px] text-blue-light leading-tight text-shadow-[-3px_3px_var(--blue-deep)]">
+                <h1 className="text-3xl md:text-5xl font-cleanow mb-[30px] text-blue-primary leading-tight text-shadow-[-3px_3px_var(--blue-deep)]">
                   {['V', 'i', 'c', 't', 'o', 'r','P','r','o','t','o','c','o','l'].map((word, index) => (
                     <span
                       key={index}
@@ -151,7 +151,6 @@ export default function Home() {
             
           </div>
         </div>
-        {/* Animated Image Carousel with Stack Effect */}
         <div className='absolute right-50 top-20 hidden md:block w-[380px] h-[420px]'>
           {carouselImages.map((imageSrc, index) => {
             const position = (index - currentImageIndex + carouselImages.length) % carouselImages.length;
@@ -218,16 +217,12 @@ export default function Home() {
         
         <section className="relative">
           <div className='max-w-[1096px] mx-auto px-6'>
-            {/* Header Section */}
             <div className="mb-[30px] md:mb-[60px]">
               <h2 className="text-3xl md:text-[50px] font-bold text-center font-cleanow text-blue-primary text-shadow-[-3px_3px_var(--blue-deep)]">
                 INTRODUCING SVU PROTOCOL
               </h2>
             </div>
-
-            {/* Image and Content Sections */}
             <div className="flex flex-col md:flex-row items-center gap-8">
-              {/* Image Section */}
               <div className="flex-shrink-0 flex justify-center md:justify-start w-full md:w-auto ">
                 <video
                   src="/Untitled design.mp4"
@@ -235,12 +230,10 @@ export default function Home() {
                   loop
                   muted
                   playsInline
-                  className='w-[400px] h-[400px] md:w-[500px] md:h-[500px] lg:w-[400px] lg:h-[400px] rounded-3xl object-center'
+                  className='w-[400px] h-[400px] md:w-[500px] md:h-[500px] lg:w-[400px] lg:h-[400px] rounded-3xl object-center shadow-2xl'
                 />
 
               </div>
-              
-              {/* Content Section */}
               <div className="flex-1 w-full">
                 <div className="space-y-8">
                   <div>

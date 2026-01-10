@@ -28,7 +28,7 @@ export const Header = () => {
             height={43}
             className="w-10 h-auto md:w-[58px]"
           />
-          <span className="text-blue-light font-semibold font-cleanow text-sm md:text-xl text-shadow-[-3px_3px_var(--blue-deep)]">
+          <span className="text-blue-primary font-semibold font-cleanow text-sm md:text-xl text-shadow-[-3px_3px_var(--blue-deep)]">
             Victor<br /> Protocol
           </span>
         </div>
@@ -53,7 +53,7 @@ export const Header = () => {
             <Link
               key={item.path}
               href={item.path}
-              className={`text-blue-light font-cleanow font-semibold hover:text-blue-primary transition-colors ${pathname === item.path ? 'text-blue-primary border-b-2 border-blue-primary' : ''
+              className={`text-blue-primary font-cleanow font-semibold hover:text-blue-primary transition-colors ${pathname === item.path ? 'text-blue-primary border-b-2 border-blue-primary' : ''
                 }`}
             >
               {item.name}
@@ -74,7 +74,7 @@ export const Header = () => {
               <Link
                 key={item.path}
                 href={item.path}
-                className={`text-blue-light hover:text-blue-primary transition-colors ${pathname === item.path ? 'text-blue-primary border-l-2 border-blue-primary pl-2' : 'pl-2'
+                className={`text-blue-primary hover:text-blue-primary transition-colors ${pathname === item.path ? 'text-blue-primary border-l-2 border-blue-primary pl-2' : 'pl-2'
                   }`}
                 onClick={() => setMobileMenuOpen(false)}
               >
