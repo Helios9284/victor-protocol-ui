@@ -243,7 +243,7 @@ export default function Home() {
                         Next-Generation DeFi on MultiversX
                       </h3>
                     </div>
-                    <p className="text-xs md:text-base text-blue-primary ml-[31px]">
+                    <p className="text-xs md:text-base text-black-primary ml-[31px]">
                       SVU is a next-generation DeFi protocol on MultiversX that empowers its community through transparent, token-holder governance, Protocol-Owned Liquidity (POL) vaults, and intuitive on-chain tools — all managed from one clean dashboard.
                     </p>
                   </div>
@@ -254,7 +254,7 @@ export default function Home() {
                         Community-Driven Governance
                       </h3>
                     </div>
-                    <p className="text-xs md:text-base text-blue-primary ml-[31px]">
+                    <p className="text-xs md:text-base text-black-primary ml-[31px]">
                       By holding SVU tokens, users gain real voting power to propose, vote on, and execute key protocol decisions — from reward adjustments to new features — in just a few simple steps.
                     </p>
                   </div>
@@ -265,11 +265,11 @@ export default function Home() {
                         Sleek Governance Dashboard
                       </h3>
                     </div>
-                    <p className="text-xs md:text-base text-blue-primary ml-[31px]">
+                    <p className="text-xs md:text-base text-black-primary ml-[31px]">
                       Connect your wallet, view your voting power, browse active proposals with clear vote breakdowns, and directly shape the future of the protocol.
                     </p>
                   </div>
-                  <p className="text-sm md:text-xl font-semibold text-blue-primary mt-8">
+                  <p className="text-sm md:text-xl font-semibold text-black-primary mt-8">
                     <span className="text-blue-primary">SVU PROTOCOL</span> provides the building blocks that make all this possible.
                   </p>
                 </div>
