@@ -1,285 +1,251 @@
-'use client';
-import Image from 'next/image';
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from "framer-motion";
+'use client'
+import React, { useRef, useEffect, useState } from 'react';
+import * as THREE from 'three';
+import { STLLoader } from 'three/examples/jsm/loaders/STLLoader.js';
 
-// Framer Motion animation variants
-const leftFollow = {
-  hidden: { opacity: 0, x: -50 },
-  visible: (i: number) => ({
-    opacity: 1,
-    x: 0,
-    transition: {
-      delay: i * 0.2,
-      duration: 0.5,
-    },
-  }),
-};
+export default function VictorProtocolLanding() {
+  const mountRef = useRef<HTMLDivElement>(null);
+  const mouseRef = useRef({ x: 0, y: 0 });
+  const [loaded, setLoaded] = useState(false);
+  const modelRef = useRef<THREE.Group | null>(null);
 
-const rightFollow = {
-  hidden: { opacity: 0, x: 50 },
-  visible: (i: number) => ({
-    opacity: 1,
-    x: 0,
-    transition: {
-      delay: i * 0.2,
-      duration: 0.5,
-    },
-  }),
-};
-
-const fadeInUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: {
-      delay: i * 0.15,
-      duration: 0.6,
-    },
-  }),
-};
-
-const scaleIn = {
-  hidden: { opacity: 0, scale: 0.8 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    transition: {
-      duration: 0.5,
-    },
-  },
-};
-
-export default function Home() {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  
-  // Image carousel - add your image paths here
-  const carouselImages = [
-    '/intro2.png',
-    '/intro3.png',
-    '/intro4.png',
-    '/intro5.png',
-    '/intro6.png',
-   
-  ];
-
-  // Auto-cycle through images
   useEffect(() => {
-    if (carouselImages.length <= 1) return;
+    if (!mountRef.current) return;
+
+    // Scene setup
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(
+      75,
+      mountRef.current.clientWidth / mountRef.current.clientHeight,
+      0.1,
+      1000
+    );
+    const renderer = new THREE.WebGLRenderer({ 
+      antialias: true, 
+      alpha: true 
+    });
     
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prev) => (prev + 1) % carouselImages.length);
-    }, 4000); // Change image every 4 seconds
+    renderer.setSize(mountRef.current.clientWidth, mountRef.current.clientHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    mountRef.current.appendChild(renderer.domElement);
 
-    return () => clearInterval(interval);
-  }, [carouselImages.length]);
+    camera.position.z = 5;
 
-  const roadmapItems = [
-    {
-      phase: "Phase 1",
-      title: "Protocol Launch & Foundation",
-      description: "Initial deployment of SVU protocol on MultiversX with core governance features and POL vaults.",
-      status: "completed",
-      date: "Q1 2024",
-    },
-    {
-      phase: "Phase 2",
-      title: "Governance Dashboard",
-      description: "Launch of sleek governance UI with voting power visualization, proposal creation, and real-time voting.",
-      status: "completed",
-      date: "Q2 2024",
-    },
-    {
-      phase: "Phase 3",
-      title: "Advanced Features",
-      description: "Implementation of advanced DeFi tools, multi-chain support, and enhanced POL management.",
-      status: "in-progress",
-      date: "Q3 2024",
-    },
-    {
-      phase: "Phase 4",
-      title: "Ecosystem Expansion",
-      description: "Partnership integrations, cross-chain bridges, and community-driven protocol enhancements.",
-      status: "upcoming",
-      date: "Q4 2024",
-    },
-  ];
+    // Enhanced lighting for glass material
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+    scene.add(ambientLight);
+
+    // Main lights for glass reflections
+    const pointLight1 = new THREE.PointLight(0x3b82f6, 2.0, 100);
+    pointLight1.position.set(5, 5, 5);
+    scene.add(pointLight1);
+
+    const pointLight2 = new THREE.PointLight(0x60a5fa, 1.5, 100);
+    pointLight2.position.set(-5, -5, 5);
+    scene.add(pointLight2);
+
+    // Additional lights for glass effect
+    const pointLight3 = new THREE.PointLight(0x87ceeb, 1.2, 100);
+    pointLight3.position.set(0, 5, 5);
+    scene.add(pointLight3);
+
+    const pointLight4 = new THREE.PointLight(0x93c5fd, 1.0, 100);
+    pointLight4.position.set(-8, 0, 0);
+    scene.add(pointLight4);
+
+    // Directional light for better glass reflections
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    directionalLight.position.set(5, 10, 5);
+    scene.add(directionalLight);
+
+    // Load STL model
+    const loader = new STLLoader();
+    const modelGroup = new THREE.Group();
+    modelRef.current = modelGroup;
+
+    loader.load(
+      '/landing.stl',
+      (geometry) => {
+        // Calculate bounding box from geometry
+        geometry.computeBoundingBox();
+        const box = geometry.boundingBox!;
+        const size = box.getSize(new THREE.Vector3());
+        const center = box.getCenter(new THREE.Vector3());
+        
+        // Center the geometry at origin
+        geometry.translate(-center.x, -center.y, -center.z);
+        
+        // Recalculate bounding box after centering
+        geometry.computeBoundingBox();
+        const newBox = geometry.boundingBox!;
+        const newSize = newBox.getSize(new THREE.Vector3());
+        
+        // Calculate scale to fit nicely in view - doubled size
+        const maxDim = Math.max(newSize.x, newSize.y, newSize.z);
+        const scale = (2.5 * 2) / maxDim; // Double the size
+        
+        // Glass material - transparent, reflective, with blue tint
+        const glassMaterial = new THREE.MeshPhysicalMaterial({
+          color: 0x60a5fa,
+          metalness: 0.1,
+          roughness: 0.05,
+          transmission: 0.1, // Glass transparency
+          thickness: 0.1, // Glass thickness for refraction
+          ior: 5.5, // Index of refraction (glass)
+          clearcoat: 1.0,
+          clearcoatRoughness: 0.1,
+          transparent: true,
+          opacity: 0.2,
+          side: THREE.DoubleSide,
+          envMapIntensity: 1.0
+        });
+
+        const mesh = new THREE.Mesh(geometry, glassMaterial);
+        mesh.scale.set(scale, scale, scale);
+        mesh.position.set(0, 0, 0);
+        
+        // Rotate model to stand upright (rotate 90 degrees on X-axis if model is lying down)
+        mesh.rotation.x = -Math.PI / 2; // Rotate to stand upright
+        
+        modelGroup.add(mesh);
+
+        // Add edge highlights for glass effect
+        const edges = new THREE.EdgesGeometry(geometry);
+        const edgeMaterial = new THREE.LineBasicMaterial({
+          color: 0x60a5fa,
+          linewidth: 1,
+          transparent: true,
+          opacity: 0.3
+        });
+        const edgeLines = new THREE.LineSegments(edges, edgeMaterial);
+        edgeLines.scale.set(scale, scale, scale);
+        edgeLines.position.set(0, 0, 0);
+        edgeLines.rotation.x = -Math.PI / 2; // Match mesh rotation
+        modelGroup.add(edgeLines);
+
+        // Ensure model group is centered and stable
+        modelGroup.position.set(0, 0, 0);
+        modelGroup.rotation.set(0, 0, 0); // Reset all rotations
+        scene.add(modelGroup);
+        setLoaded(true);
+      },
+      (progress) => {
+        // Loading progress (optional)
+        const percent = (progress.loaded / progress.total) * 100;
+        console.log(`Loading: ${percent.toFixed(0)}%`);
+      },
+      (error) => {
+        console.error('Error loading STL:', error);
+      }
+    );
+
+    // Mouse move handler
+    const handleMouseMove = (event: MouseEvent) => {
+      mouseRef.current.x = (event.clientX / window.innerWidth) * 2 - 1;
+      mouseRef.current.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+
+    // Animation loop
+    let time = 0;
+    const animate = () => {
+      requestAnimationFrame(animate);
+      time += 0.01;
+
+      if (modelRef.current) {
+        // Reverse direction and slightly faster rotation on Y-axis (standing upright)
+        modelRef.current.rotation.y -= 0.005;
+        
+        // Subtle float animation - keep it minimal
+        modelRef.current.position.y = Math.sin(time * 0.5) * 0.1;
+        
+        // Keep X and Z rotations at 0 to prevent falling/tilting
+        modelRef.current.rotation.x = 0;
+        modelRef.current.rotation.z = 0;
+      }
+
+      // Animate lights for glass reflections
+      pointLight1.position.x = 5 + Math.sin(time * 0.5) * 1;
+      pointLight1.position.y = 5 + Math.cos(time * 0.3) * 1;
+      pointLight2.position.x = -5 + Math.sin(time * 0.4) * 1;
+      pointLight2.position.y = -5 + Math.cos(time * 0.6) * 1;
+
+      renderer.render(scene, camera);
+    };
+
+    animate();
+
+    // Handle resize
+    const handleResize = () => {
+      if (!mountRef.current) return;
+      camera.aspect = mountRef.current.clientWidth / mountRef.current.clientHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(mountRef.current.clientWidth, mountRef.current.clientHeight);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('resize', handleResize);
+      if (mountRef.current) {
+        mountRef.current.removeChild(renderer.domElement);
+      }
+      renderer.dispose();
+    };
+  }, []);
 
   return (
-    <div className="flex flex-col gap-16 md:gap-24 max-w-screen overflow-x-hidden relative">
-      <div className='w-[360px] h-[360px] scale-[2] rounded-full blur-[100px] md:blur-[180px] bg-blue-primary opacity-60 absolute top-20 left-0 z-15' />
-      <div 
-        className="absolute top-20 left-0 right-0 bottom-0 bg-[url('/landing.png')] bg-no-repeat bg-cover bg-center -z-10"
-        style={{
-          opacity: 0.15
-        }}
-      ></div>
-      <section className="relative py-10 md:pt-32 md:pb-40">
-        <div className="max-w-[1096px] mx-auto px-6">
-          <div className="flex items-center justify-between">
-            <div className="max-w-2xl">
-              <motion.div
-                className="herovariants"
-                initial="hidden"
-                animate="visible"
-                custom={0}
-                variants={leftFollow}
-              >
-                <h1 className="text-3xl md:text-5xl font-cleanow mb-[30px] text-blue-primary leading-tight text-shadow-[-3px_3px_var(--blue-deep)]">
-                  {['V', 'i', 'c', 't', 'o', 'r','P','r','o','t','o','c','o','l'].map((word, index) => (
-                    <span
-                      key={index}
-                      className="wave-text inline-block text-6xl"
-                      style={{
-                        animationDelay: `${index * 0.2}s`
-                      }}
-                    >
-                      {word}{index < 5 ? ' ' : ''}
-                    </span>
-                  ))}
-                  <br />will accelerate your business
-                </h1>
-                <p className="text-sm md:text-xl text-black-light mb-10 font-cleanow">
-                  Start building your smart contract with Victor Protocol
-                </p>
-                <button className="bg-gradient-blue-primary text-white px-4 py-3 rounded-full font-cleanow text-xl hover:bg-gradient-blue-sky transition-all border-[4px] border-blue-light shadow-[0_0_20px_var(--blue-primary)]">
-                  CREATE A CONTRACT
-                </button>
-              </motion.div>
-            </div>
-            
-          </div>
-        </div>
-        <div className='absolute right-50 top-20 hidden md:block w-[380px] h-[420px]'>
-          {carouselImages.map((imageSrc, index) => {
-            const position = (index - currentImageIndex + carouselImages.length) % carouselImages.length;
-            const isActive = position === 0;
-            const isNext = position === 1;
-            if (position > 1 && position < carouselImages.length - 1) return null;
-
-            return (
-              <motion.div
-                key={`${imageSrc}-${index}`}
-                className="absolute inset-0"
-                initial={isActive ? { opacity: 0, scale: 0.9, x: 50, rotateY: -15 } : false}
-                animate={{
-                  scale: isActive ? 1 : isNext ? 0.75 : 0.6,
-                  x: isActive ? 0 : isNext ? 100 : 40,
-                  y: isActive ? 0 : isNext ? -40 : -30,
-                  zIndex: isActive ? 3 : isNext ? 2 : 1,
-                  opacity: isActive ? 1 : isNext ? 0.8 : 0.3,
-                  rotateY: isActive ? 0 : isNext ? -5 : -8,
-                  filter: isActive ? 'blur(0px)' : isNext ? 'blur(1px)' : 'blur(5px)',
-                }}
-                transition={{
-                  duration: 0.8,
-                  ease: [0.25, 0.46, 0.45, 0.94],
-                }}
-                style={{
-                  transformStyle: 'preserve-3d',
-                }}
-              >
-                <motion.div
-                  initial={isActive ? { opacity: 0, y: 30 } : false}
-                  animate={{
-                    opacity: isActive ? 1 : isNext ? 0.7 : 0.4,
-                    y: isActive ? 0 : isNext ? 10 : -10,
-                  }}
-                  transition={{
-                    duration: 0.6,
-                    delay: isActive ? 0.2 : 0,
-                  }}
-                  className="w-full h-full"
-                >
-                  <Image
-                    src={imageSrc}
-                    alt={`Carousel image ${index + 1}`}
-                    width={300}
-                    height={350}
-                    className='w-full h-full rounded-3xl object-contain shadow-2xl'
-                    priority={isActive}
-                  />
-                </motion.div>
-              </motion.div>
-            );
-          })}
-        </div>
-      </section>
-      <motion.div
-          className="introduction mt-[200px] relative"
-          initial="hidden"
-          animate="visible"
-          custom={0}
-          variants={rightFollow}
-      >
-      <div className='absolute w-[600px] h-[200px] blur-[80px] md:blur-[180px] bg-blue-primary opacity-50 -top-[200px] right-0 -z-[1]'></div>
-        
-        <section className="relative">
-          <div className='max-w-[1096px] mx-auto px-6'>
-            <div className="mb-[30px] md:mb-[60px]">
-              <h2 className="text-3xl md:text-[50px] font-bold text-center font-cleanow text-blue-primary text-shadow-[-3px_3px_var(--blue-deep)]">
-                INTRODUCING SVU PROTOCOL
-              </h2>
-            </div>
-            <div className="flex flex-col md:flex-row items-center gap-8">
-              <div className="flex-shrink-0 flex justify-center md:justify-start w-full md:w-auto ">
-                <video
-                  src="/Untitled design.mp4"
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  className='w-[400px] h-[400px] md:w-[500px] md:h-[500px] lg:w-[400px] lg:h-[400px] rounded-3xl object-center shadow-2xl'
-                />
-
-              </div>
-              <div className="flex-1 w-full">
-                <div className="space-y-8">
-                  <div>
-                    <div className='mb-4 flex items-center gap-4'>
-                      <div className='rounded-full bg-gradient-to-r bg-linear-to-r from-[#87CEEB] to-[#00BFFF] w-[15px] h-[15px] shadow-[0_0_8px_var(--blue-primary)]'></div>
-                      <h3 className="text-base md:text-2xl font-semibold text-blue-primary">
-                        Next-Generation DeFi on MultiversX
-                      </h3>
-                    </div>
-                    <p className="text-xs md:text-base text-black-primary ml-[31px]">
-                      SVU is a next-generation DeFi protocol on MultiversX that empowers its community through transparent, token-holder governance, Protocol-Owned Liquidity (POL) vaults, and intuitive on-chain tools — all managed from one clean dashboard.
-                    </p>
-                  </div>
-                  <div>
-                    <div className='mb-4 flex items-center gap-4'>
-                      <div className='rounded-full bg-gradient-to-r bg-linear-to-r from-[#87CEEB] to-[#00BFFF] w-[15px] h-[15px] shadow-[0_0_8px_var(--blue-primary)]'></div>
-                      <h3 className="text-base md:text-2xl font-semibold text-blue-primary">
-                        Community-Driven Governance
-                      </h3>
-                    </div>
-                    <p className="text-xs md:text-base text-black-primary ml-[31px]">
-                      By holding SVU tokens, users gain real voting power to propose, vote on, and execute key protocol decisions — from reward adjustments to new features — in just a few simple steps.
-                    </p>
-                  </div>
-                  <div>
-                    <div className='mb-4 flex items-center gap-4'>
-                      <div className='rounded-full bg-gradient-to-r bg-linear-to-r from-[#87CEEB] to-[#00BFFF] w-[15px] h-[15px] shadow-[0_0_8px_var(--blue-primary)]'></div>
-                      <h3 className="text-base md:text-2xl font-semibold text-blue-primary">
-                        Sleek Governance Dashboard
-                      </h3>
-                    </div>
-                    <p className="text-xs md:text-base text-black-primary ml-[31px]">
-                      Connect your wallet, view your voting power, browse active proposals with clear vote breakdowns, and directly shape the future of the protocol.
-                    </p>
-                  </div>
-                  <p className="text-sm md:text-xl font-semibold text-black-primary mt-8">
-                    <span className="text-blue-primary">SVU PROTOCOL</span> provides the building blocks that make all this possible.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      </motion.div>
-
+    <div className="relative w-full h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 overflow-hidden">
+      {/* Background grid effect */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(59,130,246,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,0.1)_1px,transparent_1px)] bg-[size:50px_50px] [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_80%)]"></div>
       
+      <div className="relative z-10 flex items-center justify-between h-full max-w-7xl mx-auto px-8">
+        {/* Left side - Text content */}
+        <div className="flex-1 space-y-6">
+          <div className="space-y-4">
+            <h1 className="text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300 animate-pulse">
+              VICTOR
+            </h1>
+            <h2 className="text-6xl font-bold text-blue-100">
+              PROTOCOL
+            </h2>
+          </div>
+          
+          <div className="h-1 w-32 bg-gradient-to-r from-blue-500 to-cyan-400"></div>
+          
+          <p className="text-xl text-blue-200 max-w-lg leading-relaxed">
+            Next-generation security infrastructure powered by advanced cryptographic protocols
+          </p>
+          
+          <div className="flex gap-4 pt-4">
+            <button className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/50 transform hover:scale-105">
+              Get Started
+            </button>
+            <button className="px-8 py-3 border-2 border-blue-500 text-blue-300 hover:bg-blue-500/10 font-semibold rounded-lg transition-all duration-300">
+              Learn More
+            </button>
+          </div>
+        </div>
+
+        {/* Right side - Three.js STL Model */}
+        <div className="flex-1 h-full relative">
+          <div 
+            ref={mountRef} 
+            className={`w-full h-full transition-opacity duration-1000 ${loaded ? 'opacity-100' : 'opacity-0'}`}
+          />
+          {!loaded && (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="text-blue-400 text-xl">Loading 3D Model...</div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Bottom accent line */}
+      <div className="absolute bottom-0 left-0 right-0 h-3 bg-gradient-to-r from-transparent via-blue-500 to-transparent"></div>
     </div>
   );
 }
