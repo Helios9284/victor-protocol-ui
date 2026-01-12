@@ -155,7 +155,7 @@ export default function VictorProtocolLanding() {
 
       if (modelRef.current) {
         // Reverse direction and slightly faster rotation on Y-axis (standing upright)
-        modelRef.current.rotation.y -= 0.005;
+        modelRef.current.rotation.y -= 0.008;
         
         // Subtle float animation - keep it minimal
         modelRef.current.position.y = Math.sin(time * 0.5) * 0.1;
